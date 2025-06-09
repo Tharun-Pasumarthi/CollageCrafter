@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CollageCrafter | Premium Photo Collage Creator</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #6C5CE7;
+      --primary-dark: #5649C0;
+      --secondary: #00CEFF;
+      --dark: #2D3436;
+      --light: #F5F6FA;
+      --white: #FFFFFF;
+      --gray: #B2BEC3;
+      --border-radius: 16px;
+      --border-radius-sm: 8px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.12);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.03) 0%, rgba(108, 92, 231, 0.03) 90%);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 40px auto;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      flex: 1;
+    }
+    
+    .app-header {
+      padding: 28px 40px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .app-header::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 28px;
+      font-weight: 700;
+      z-index: 1;
+    }
+    
+    .logo-icon {
+      font-size: 32px;
+      color: var(--secondary);
+    }
+    
+    .tagline {
+      font-weight: 300;
+      opacity: 0.9;
+      font-size: 16px;
+      margin-top: 4px;
+      z-index: 1;
+    }
+    
+    .controls-container {
+      padding: 30px;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .control-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .control-label i {
+      color: var(--primary);
+      font-size: 14px;
+    }
+    
+    input[type="file"] {
+      display: none;
+    }
+    
+    .file-upload {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 14px 20px;
+      border-radius: var(--border-radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
+    }
+    
+    .file-upload:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    select, button {
+      padding: 14px 20px;
+      border-radius: var(--border-radius-sm);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: var(--white);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+    }
+    
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D3436' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 16px;
+    }
+    
+    select:focus, button:focus, input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+    
+    button {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
+    }
+    
+    button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--gray);
+      appearance: none;
+      outline: none;
+      margin-top: 8px;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 3px solid var(--white);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+    
+    input[type="color"] {
+      width: 40px;
+      height: 40px;
+      padding: 2px;
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+    
+    input[type="color"]::-webkit-color-swatch {
+      border-radius: 50%;
+      border: none;
+    }
+    
+    input[type="number"] {
+      padding: 14px;
+      border-radius: var(--border-radius-sm);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 14px;
+      width: 80px;
+    }
+    
+    .border-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .canvas-container {
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      background-color: #f9f9f9;
+    }
+    
+    #collageCanvas {
+      display: block;
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius-sm);
+      background-color: var(--white);
+    }
+    
+    .slider-value {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: right;
+      margin-top: 4px;
+    }
+    
+    @media (max-width: 1024px) {
+      .controls {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+      }
+      
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 24px;
+      }
+      
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-header">
+      <div>
+        <div class="logo">
+          <i class="fas fa-shapes logo-icon"></i>
+          <span>CollageCrafter</span>
+        </div>
+        <div class="tagline">Create stunning photo collages with professional quality</div>
+      </div>
+    </div>
+
+    <div class="controls-container">
+      <div class="controls">
+        <div class="control-group">
+          <label for="imageUpload" class="control-label">
+            <i class="fas fa-images"></i>
+            Upload Photos
+          </label>
+          <div class="file-upload">
+            <i class="fas fa-cloud-upload-alt"></i>
+            Choose Images
+            <input type="file" id="imageUpload" multiple accept="image/*" />
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label for="templateSelect" class="control-label">
+            <i class="fas fa-th-large"></i>
+            Template
+          </label>
+          <select id="templateSelect">
+            <option value="free">Free Layout</option>
+            <option value="2x2">Grid 2x2</option>
+            <option value="3x3">Grid 3x3</option>
+            <option value="big-left">1 Big Left + 2 Small Right</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">
+            <i class="fas fa-font"></i>
+            Text Options
+          </label>
+          <button id="addText">
+            <i class="fas fa-plus"></i>
+            Add Text Layer
+          </button>
+        </div>
+        
+        <div class="control-group">
+          <label for="brightness" class="control-label">
+            <i class="fas fa-sun"></i>
+            Brightness
+          </label>
+          <input type="range" id="brightness" min="-1" max="1" step="0.1" value="0" />
+          <div class="slider-value">0</div>
+        </div>
+        
+        <div class="control-group">
+          <label for="contrast" class="control-label">
+            <i class="fas fa-adjust"></i>
+            Contrast
+          </label>
+          <input type="range" id="contrast" min="-1" max="1" step="0.1" value="0" />
+          <div class="slider-value">0</div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">
+            <i class="fas fa-border-style"></i>
+            Border
+          </label>
+          <div class="border-controls">
+            <input type="color" id="borderColor" value="#000000" />
+            <input type="number" id="borderWidth" min="0" max="20" value="0" placeholder="Width (px)" />
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label for="exportFormat" class="control-label">
+            <i class="fas fa-file-export"></i>
+            Export Format
+          </label>
+          <select id="exportFormat">
+            <option value="png">PNG (High Quality)</option>
+            <option value="jpeg">JPEG (Compressed)</option>
+            <option value="webp">WEBP (Modern)</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">
+            <i class="fas fa-download"></i>
+            Export
+          </label>
+          <button id="downloadBtn">
+            <i class="fas fa-arrow-down"></i>
+            Download Collage
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="collageCanvas" width="1000" height="800"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+  <script>
+    // Add slider value display functionality
+    document.querySelectorAll('input[type="range"]').forEach(slider => {
+      const valueDisplay = slider.nextElementSibling;
+      if (valueDisplay && valueDisplay.classList.contains('slider-value')) {
+        slider.addEventListener('input', () => {
+          valueDisplay.textContent = slider.value;
+        });
+      }
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
